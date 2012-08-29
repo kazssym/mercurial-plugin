@@ -8,7 +8,7 @@
   </parent>
 
   <artifactId>mercurial</artifactId>
-  <version>1.42-h-1-SNAPSHOT</version>
+  <version>1.41-h-1-SNAPSHOT</version>
   <packaging>hpi</packaging>
 
   <name>Hudson Mercurial plugin</name>

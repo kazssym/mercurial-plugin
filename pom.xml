@@ -8,12 +8,12 @@
   </parent>
 
   <artifactId>mercurial</artifactId>
-  <version>1.42-SNAPSHOT</version>
+  <version>1.42-h-1-SNAPSHOT</version>
   <packaging>hpi</packaging>
 
-  <name>Jenkins Mercurial plugin</name>
-  <description>Integrates Hudson/Jenkins to Mercurial SCM</description>
-  <url>http://wiki.jenkins-ci.org/display/JENKINS/Mercurial+Plugin</url>
+  <name>Hudson Mercurial plugin</name>
+  <description>Integrates Hudson to Mercurial SCM</description>
+  <url>http://wiki.hudson-ci.org/display/HUDSON/Mercurial+Plugin</url>
 
   <developers>
       <developer>
@@ -36,6 +36,11 @@
           <name>David M. Carr</name>
           <email>david@carrclan.us</email>
       </developer>
+      <developer>
+          <id>schristou88</id>
+          <name>Steven Christou</name>
+          <email>schristou88@gmail.com</email>
+      </developer>
   </developers>
   <licenses>
       <license>
@@ -45,30 +50,15 @@
   </licenses>
 
   <scm>
-      <connection>scm:git:git://github.com/jenkinsci/mercurial-plugin.git</connection>
-      <developerConnection>scm:git:git@github.com:jenkinsci/mercurial-plugin.git</developerConnection>
-      <url>https://github.com/jenkinsci/mercurial-plugin</url>
+      <connection>scm:git:git@github.com:hudson3-plugins/mercurial-plugin.git</connection>
+      <developerConnection>scm:git:git@github.com:hudson3-plugins/mercurial-plugin.git</developerConnection>
+      <url>https://github.com/hudson3-plugins/mercurial-plugin</url>
   </scm>
-<!--  <issueManagement>
-      <system>JIRA</system>
-      <url>http://issues.jenkins-ci.org/secure/IssueNavigator.jspa?reset=true&amp;jqlQuery=project+%3D+Jenkins+AND+component+%3D+mercurial+AND+resolution+%3D+Unresolved</url>
-  </issueManagement>
-  <ciManagement>
-      <system>jenkins</system>
-      <url>http://ci.jenkins-ci.org/job/plugins_mercurial/</url>
-  </ciManagement>
--->
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-<!--
-  <repositories>
-    <repository>
-      <id>repo.jenkins-ci.org</id>
-      <url>http://repo.jenkins-ci.org/public/</url>
-    </repository>
-  </repositories>
--->
+
   <dependencies>
       <dependency>
           <groupId>findbugs</groupId>
@@ -184,7 +174,7 @@
                   <quiet>true</quiet>
                   <links>
                       <link>http://download.oracle.com/javase/1.5.0/docs/api/</link>
-                      <link>http://javadoc.jenkins-ci.org/</link>
+                      <!--link>http://javadoc.hudson-ci.org/</link-->
                       <!--link>https://stapler.dev.java.net/nonav/javadoc/</link-->
                   </links>
               </configuration>
@@ -262,14 +252,5 @@
           </plugin>
       </plugins>
   </reporting>
-
-<!--
-    <pluginRepositories>
-        <pluginRepository>
-            <id>repo.jenkins-ci.org</id>
-            <url>http://repo.jenkins-ci.org/public/</url>
-        </pluginRepository>
-    </pluginRepositories>
--->
 </project>  
 

@@ -1,15 +1,15 @@
 package hudson.plugins.mercurial;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
-import hudson.Extension;
-import hudson.ExtensionPoint;
-import hudson.model.RootAction;
-import hudson.model.AbstractModelObject;
 import hudson.Extension;
 import hudson.model.AbstractModelObject;
 import hudson.model.AbstractProject;
 import hudson.model.Hudson;
+import hudson.model.RootAction;
 import hudson.scm.SCM;
+import hudson.security.ACL;
+import hudson.security.NotSerilizableSecurityContext;
 import hudson.triggers.SCMTrigger;
 import org.kohsuke.stapler.HttpResponse;
 import org.kohsuke.stapler.HttpResponses;
@@ -20,16 +20,21 @@ import org.kohsuke.stapler.StaplerResponse;
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static javax.servlet.http.HttpServletResponse.*;
+import org.springframework.security.Authentication;
+import org.springframework.security.context.SecurityContext;
+import org.springframework.security.context.SecurityContextHolder;
 /**
- * Information screen for the use of Mercurial in Jenkins.
+ * Information screen for the use of Mercurial in Hudson.
  */
 @Extension
-public class MercurialStatus extends AbstractModelObject implements RootAction, ExtensionPoint {
+public class MercurialStatus extends AbstractModelObject implements RootAction {
     public String getDisplayName() {
         return Messages.MercurialStatus_mercurial();
     }
@@ -39,15 +44,57 @@ public class MercurialStatus extends AbstractModelObject implements RootAction, 
     }
 
     public String getIconFileName() {
-        // TODO
         return null;
     }
 
     public String getUrlName() {
         return "mercurial";
     }
+    
+    private static int getPort(URI uri) {
+        int port = uri.getPort();
+        if ( port < 0 ){
+            String scheme = uri.getScheme();
+            if ( scheme.equals("http") ){
+                port = 80;
+            } else if ( scheme.equals("https") ) {
+                port = 443;
+            } else if ( scheme.equals("ssh") ) {
+                port = 22;
+            }
+        }
+        return port;
+    }
+    
+    static boolean looselyMatches(URI notifyUri, String repository) {
+        boolean result = false;
+        try {
+            URI repositoryUri = new URI(repository);
+            result = Objects.equal(notifyUri.getScheme(), repositoryUri.getScheme()) 
+                && Objects.equal(notifyUri.getHost(), repositoryUri.getHost()) 
+                && getPort(notifyUri) == getPort(repositoryUri)
+                && Objects.equal(notifyUri.getPath(), repositoryUri.getPath())
+                && Objects.equal(notifyUri.getQuery(), repositoryUri.getQuery());
+        } catch ( URISyntaxException ex ) {
+            LOGGER.log(Level.SEVERE, "could not parse repository uri " + repository, ex);
+        }
+        return result;
+    }
 
-    public HttpResponse doNotifyCommit(@QueryParameter(required=true) String url) throws ServletException, IOException {
+    public HttpResponse doNotifyCommit(@QueryParameter(required=true) final String url) throws ServletException, IOException {
+        // run in high privilege to see all the projects anonymous users don't see.
+        // this is safe because we only initiate polling.
+        //SecurityContext securityContext = ACL.impersonate(ACL.SYSTEM);
+        try {
+            return handleNotifyCommit(new URI(url));
+        } catch ( URISyntaxException ex ) {
+            throw HttpResponses.error(SC_BAD_REQUEST, ex);
+        } finally {
+            //SecurityContextHolder.setContext(securityContext);
+        }
+    }
+    
+    private HttpResponse handleNotifyCommit(URI url) throws ServletException, IOException {
         final List<AbstractProject<?,?>> projects = Lists.newArrayList();
         boolean scmFound = false,
                 triggerFound = false,
@@ -58,11 +105,16 @@ public class MercurialStatus extends AbstractModelObject implements RootAction, 
 
             MercurialSCM hg = (MercurialSCM) scm;
             String repository = hg.getSource();
-            if (url.equals(repository)) urlFound = true; else continue;
+            if (repository == null) {
+                LOGGER.log(Level.FINE, "project " + project.getDisplayName() + " is using source control but does not identify a repository");
+                continue;
+            }
+            LOGGER.log(Level.INFO, "url == " + url + " repository == " + repository);
+            if (looselyMatches(url, repository)) urlFound = true; else continue;
             SCMTrigger trigger = project.getTrigger(SCMTrigger.class);
             if (trigger!=null) triggerFound = true; else continue;
 
-            LOGGER.info("Triggering the polling of "+project.getFullDisplayName());
+            LOGGER.log(Level.INFO, "Triggering the polling of {0}", project.getFullDisplayName());
             trigger.run();
             projects.add(project);
         }

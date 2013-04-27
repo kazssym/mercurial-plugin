@@ -23,6 +23,15 @@ public class MultiSCMChangeLogSet extends ChangeLogSet<Entry> {
         kinds = new HashSet<String>();
 	}
 
+  @Override
+  public Collection<Entry> getLogs() {
+    List<Entry> list = new ArrayList<Entry>();
+    for (Iterator<Entry> it = iterator(); it.hasNext(); ) {
+      list.add(it.next());
+    }
+    return list;
+  }
+
 	public static class ChangeLogSetWrapper {
 		private AbstractBuild build;
 		private List<Entry> logs;
@@ -48,9 +57,6 @@ public class MultiSCMChangeLogSet extends ChangeLogSet<Entry> {
 			return friendlyName;
 		}
 		
-		public List<Entry> getLogs() {
-			return logs;
-		}
 
 		public void addChanges(ChangeLogSet<? extends Entry> cls) {
 			for(Entry e : cls)
@@ -121,11 +127,5 @@ public class MultiSCMChangeLogSet extends ChangeLogSet<Entry> {
             return "Multi" + kinds;
         }
     }
-
-	@Override
-	public Collection<hudson.scm.ChangeLogSet.Entry> getLogs() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

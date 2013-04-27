@@ -118,7 +118,7 @@ public class MercurialSCMTest extends MercurialTestCase {
         // No support for partial checkouts yet, so workspace will contain
         // everything.
         buildAndCheck(p, "dir3/f");
-        /* superseded by JENKINS-7594:
+        /* superseded by HUDSON-7594:
         // HUDSON-4972: do not pay attention to merges
         // (reproduce using the pathological scenario, since reproducing the
         // actual scenario

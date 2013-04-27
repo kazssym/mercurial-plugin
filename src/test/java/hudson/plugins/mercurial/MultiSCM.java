@@ -35,7 +35,7 @@ class MultiSCM extends SCM {
         final Map<String,SCMRevisionState> revisionStates = new HashMap<String,SCMRevisionState>();
     }
 
-    private static String keyFor(SCM scm, FilePath ws, AbstractBuild<?,?> build) { // JENKINS-12298
+    private static String keyFor(SCM scm, FilePath ws, AbstractBuild<?,?> build) { // HUDSON-12298
         StringBuilder b = new StringBuilder(scm.getType());
         for (FilePath root : scm.getModuleRoots(ws, build)) {
             b.append(root.getRemote().substring(ws.getRemote().length()));

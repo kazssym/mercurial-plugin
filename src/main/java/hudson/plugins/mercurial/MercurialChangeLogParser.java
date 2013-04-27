@@ -1,5 +1,6 @@
 package hudson.plugins.mercurial;
 
+import hudson.Util;
 import hudson.model.AbstractBuild;
 import hudson.scm.ChangeLogParser;
 import hudson.util.Digester2;
@@ -50,7 +51,7 @@ public class MercurialChangeLogParser extends ChangeLogParser {
         } catch (IOException e) {
             throw new IOException2("Failed to parse " + changelogFile, e);
         } catch (SAXException e) {
-            throw new IOException2("Failed to parse " + changelogFile, e);
+            throw new IOException2("Failed to parse " + changelogFile + ": '" + Util.loadFile(changelogFile) + "'", e);
         }
 
         if (modules != null) {
@@ -72,7 +73,7 @@ public class MercurialChangeLogParser extends ChangeLogParser {
         }
 
         // sort the changes from oldest to newest, this gives the best result in
-        // the Jenkins changes view,
+        // the Hudson changes view,
         // and is like the old situation where 'hg incoming' was used to
         // determine the changelog
         Collections.sort(r, new Comparator<MercurialChangeSet>() {

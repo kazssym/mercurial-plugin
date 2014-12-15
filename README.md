@@ -1,6 +1,6 @@
-Jenkins Mercurial Plugin
-=========================
+Hudson Mercurial Plugin
+=======================
 
-This plugin integrates the Mercurial version control system with Jenkins.
+This plugin integrates the Mercurial version control system with Hudson.
 
-See [Mercurial Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Mercurial+Plugin) on the Jenkins Wiki for more information.
+See [Mercurial Plugin](http://wiki.hudson-ci.org/display/HUDSON/Mercurial+Plugin) on the Hudson Wiki for more information.

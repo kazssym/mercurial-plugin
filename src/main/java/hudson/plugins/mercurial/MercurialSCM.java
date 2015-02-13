@@ -698,6 +698,52 @@ public class MercurialSCM extends SCM implements Serializable {
         }
     }
 
+    /**
+     * Returns the hash code value of this object.
+     *
+     * @return hash code value
+     * @author Kaz Nishimura
+     */
+    @Override
+    public int hashCode() {
+        int result = getClass().hashCode();
+        result ^= getInstallation().hashCode();
+        result ^= getSource().hashCode();
+        result ^= getBranch().hashCode();
+        result ^= getModules().hashCode();
+        result ^= getSubdir().hashCode();
+        result ^= getBrowser().hashCode();
+        result ^= Boolean.valueOf(isClean()).hashCode();
+        return result;
+    }
+
+    /**
+     * Tests if this object equals to another one.
+     *
+     * @param object another object that will be tested for equality
+     * @return true if this object equals to the parameter; false otherwise
+     * @author Kaz Nishimura
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object != null && getClass() == object.getClass()) {
+            MercurialSCM another = (MercurialSCM) object;
+            if (getInstallation().equals(another.getInstallation())
+                    && getSource().equals(another.getSource())
+                    && getBranch().equals(another.getBranch())
+                    && getModules().equals(another.getModules())
+                    && getSubdir().equals(another.getSubdir())
+                    && getBrowser().equals(another.getBrowser())
+                    && isClean() == another.isClean()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private static class PossiblyCachedRepo {
         private final String repoLocation;
         private final boolean useCaches;

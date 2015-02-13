@@ -84,4 +84,38 @@ public class HgBrowser extends RepositoryBrowser<MercurialChangeSet> {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Returns the hash code value of this object.
+     *
+     * @return hash code value
+     * @author Kaz Nishimura
+     */
+    @Override
+    public int hashCode() {
+        int result = getClass().hashCode();
+        result ^= getUrl().hashCode();
+        return result;
+    }
+
+    /**
+     * Tests if this object equals to another one.
+     *
+     * @param object another object that will be tested for equality
+     * @return true if this object equals to the parameter; false otherwise
+     * @author Kaz Nishimura
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object != null && getClass() == object.getClass()) {
+            HgBrowser another = (HgBrowser) object;
+            if (getUrl().equals(another.getUrl())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

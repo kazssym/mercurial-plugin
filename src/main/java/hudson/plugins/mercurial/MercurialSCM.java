@@ -88,6 +88,24 @@ public class MercurialSCM extends SCM implements Serializable {
 
     private HgBrowser browser;
 
+    /**
+     * Tests if either two objects are equal or both are <code>null</code>s.
+     *
+     * @param value1 the first object to compare
+     * @param value2 the second object to compare
+     * @return true if either the two objects are equal or both parameters are
+     * <code>null</code>s; false otherwise
+     * @author Kaz Nishimura
+     */
+    protected static boolean valuesAreEqual(Object value1, Object value2) {
+        if (value1 == null) {
+            if (value2 == null) {
+                return true;
+            }
+        }
+        return value1.equals(value2);
+    }
+
     @DataBoundConstructor
     public MercurialSCM(String installation, String source, String branch, String modules, String subdir, HgBrowser browser, boolean clean) {
         this.installation = installation;
@@ -707,12 +725,24 @@ public class MercurialSCM extends SCM implements Serializable {
     @Override
     public int hashCode() {
         int result = getClass().hashCode();
-        result ^= getInstallation().hashCode();
-        result ^= getSource().hashCode();
-        result ^= getBranch().hashCode();
-        result ^= getModules().hashCode();
-        result ^= getSubdir().hashCode();
-        result ^= getBrowser().hashCode();
+        if (getInstallation() != null) {
+            result ^= getInstallation().hashCode();
+        }
+        if (getSource() != null) {
+            result ^= getSource().hashCode();
+        }
+        if (getBranch() != null) {
+            result ^= getBranch().hashCode();
+        }
+        if (getModules() != null) {
+            result ^= getModules().hashCode();
+        }
+        if (getSubdir() != null) {
+            result ^= getSubdir().hashCode();
+        }
+        if (getBrowser() != null) {
+            result ^= getBrowser().hashCode();
+        }
         result ^= Boolean.valueOf(isClean()).hashCode();
         return result;
     }
@@ -731,12 +761,12 @@ public class MercurialSCM extends SCM implements Serializable {
         }
         if (object != null && getClass() == object.getClass()) {
             MercurialSCM another = (MercurialSCM) object;
-            if (getInstallation().equals(another.getInstallation())
-                    && getSource().equals(another.getSource())
-                    && getBranch().equals(another.getBranch())
-                    && getModules().equals(another.getModules())
-                    && getSubdir().equals(another.getSubdir())
-                    && getBrowser().equals(another.getBrowser())
+            if (valuesAreEqual(getInstallation(), another.getInstallation())
+                    && valuesAreEqual(getSource(), another.getSource())
+                    && valuesAreEqual(getBranch(), another.getBranch())
+                    && valuesAreEqual(getModules(), another.getModules())
+                    && valuesAreEqual(getSubdir(), another.getSubdir())
+                    && valuesAreEqual(getBrowser(), another.getBrowser())
                     && isClean() == another.isClean()) {
                 return true;
             }

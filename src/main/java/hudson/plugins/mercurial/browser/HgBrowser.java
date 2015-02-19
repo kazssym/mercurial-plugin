@@ -94,7 +94,9 @@ public class HgBrowser extends RepositoryBrowser<MercurialChangeSet> {
     @Override
     public int hashCode() {
         int result = getClass().hashCode();
-        result ^= getUrl().hashCode();
+        if (getUrl() != null) {
+            result ^= getUrl().hashCode();
+        }
         return result;
     }
 
@@ -112,7 +114,8 @@ public class HgBrowser extends RepositoryBrowser<MercurialChangeSet> {
         }
         if (object != null && getClass() == object.getClass()) {
             HgBrowser another = (HgBrowser) object;
-            if (getUrl().equals(another.getUrl())) {
+            if ((getUrl() == null && another.getUrl() == null)
+                    || getUrl().equals(another.getUrl())) {
                 return true;
             }
         }

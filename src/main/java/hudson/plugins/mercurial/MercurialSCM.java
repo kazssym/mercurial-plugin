@@ -88,6 +88,24 @@ public class MercurialSCM extends SCM implements Serializable {
 
     private HgBrowser browser;
 
+    /**
+     * Tests if either two objects are equal or both are <code>null</code>s.
+     *
+     * @param value1 the first object to compare
+     * @param value2 the second object to compare
+     * @return true if either the two objects are equal or both parameters are
+     * <code>null</code>s; false otherwise
+     * @author Kaz Nishimura
+     */
+    protected static boolean valuesAreEqual(Object value1, Object value2) {
+        if (value1 == null) {
+            if (value2 == null) {
+                return true;
+            }
+        }
+        return value1.equals(value2);
+    }
+
     @DataBoundConstructor
     public MercurialSCM(String installation, String source, String branch, String modules, String subdir, HgBrowser browser, boolean clean) {
         this.installation = installation;
@@ -696,6 +714,64 @@ public class MercurialSCM extends SCM implements Serializable {
             x.printStackTrace(listener.error("Failed to use repository cache for " + source));
             return null;
         }
+    }
+
+    /**
+     * Returns the hash code value of this object.
+     *
+     * @return hash code value
+     * @author Kaz Nishimura
+     */
+    @Override
+    public int hashCode() {
+        int result = getClass().hashCode();
+        if (getInstallation() != null) {
+            result ^= getInstallation().hashCode();
+        }
+        if (getSource() != null) {
+            result ^= getSource().hashCode();
+        }
+        if (getBranch() != null) {
+            result ^= getBranch().hashCode();
+        }
+        if (getModules() != null) {
+            result ^= getModules().hashCode();
+        }
+        if (getSubdir() != null) {
+            result ^= getSubdir().hashCode();
+        }
+        if (getBrowser() != null) {
+            result ^= getBrowser().hashCode();
+        }
+        result ^= Boolean.valueOf(isClean()).hashCode();
+        return result;
+    }
+
+    /**
+     * Tests if this object equals to another one.
+     *
+     * @param object another object that will be tested for equality
+     * @return true if this object equals to the parameter; false otherwise
+     * @author Kaz Nishimura
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object != null && getClass() == object.getClass()) {
+            MercurialSCM another = (MercurialSCM) object;
+            if (valuesAreEqual(getInstallation(), another.getInstallation())
+                    && valuesAreEqual(getSource(), another.getSource())
+                    && valuesAreEqual(getBranch(), another.getBranch())
+                    && valuesAreEqual(getModules(), another.getModules())
+                    && valuesAreEqual(getSubdir(), another.getSubdir())
+                    && valuesAreEqual(getBrowser(), another.getBrowser())
+                    && isClean() == another.isClean()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static class PossiblyCachedRepo {

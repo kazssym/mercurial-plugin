@@ -99,9 +99,7 @@ public class MercurialSCM extends SCM implements Serializable {
      */
     protected static boolean valuesAreEqual(Object value1, Object value2) {
         if (value1 == null) {
-            if (value2 == null) {
-                return true;
-            }
+            return value2 == null;
         }
         return value1.equals(value2);
     }

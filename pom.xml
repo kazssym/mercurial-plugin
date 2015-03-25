@@ -11,7 +11,7 @@
 
   <groupId>org.hudsonci.plugins</groupId>
   <artifactId>mercurial</artifactId>
-  <version>1.45-h-2-SNAPSHOT</version>
+  <version>1.45-h-2</version>
   <packaging>hpi</packaging>
 
   <name>Hudson Mercurial plugin</name>

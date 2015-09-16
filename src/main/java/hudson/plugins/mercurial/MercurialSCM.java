@@ -86,6 +86,8 @@ public class MercurialSCM extends SCM implements Serializable {
 
     private final boolean clean;
 
+    private final boolean toPullAll;
+
     private HgBrowser browser;
 
     /**
@@ -105,12 +107,16 @@ public class MercurialSCM extends SCM implements Serializable {
     }
 
     @DataBoundConstructor
-    public MercurialSCM(String installation, String source, String branch, String modules, String subdir, HgBrowser browser, boolean clean) {
+    public MercurialSCM(
+            String installation, String source, String branch, String modules,
+            String subdir, HgBrowser browser, boolean clean,
+            boolean toPullAll) {
         this.installation = installation;
         this.source = Util.fixEmptyAndTrim(source);
         this.modules = Util.fixNull(modules);
         this.subdir = Util.fixEmptyAndTrim(subdir);
         this.clean = clean;
+        this.toPullAll = toPullAll;
         parseModules();
         branch = Util.fixEmpty(branch);
         if (branch != null && branch.equals("default")) {
@@ -198,6 +204,16 @@ public class MercurialSCM extends SCM implements Serializable {
      */
     public boolean isClean() {
         return clean;
+    }
+
+    /**
+     * Returns a boolean value indicating whether all revisions are to be
+     * pulled (or cloned) or not.
+     * @return <code>true</code> if all revisions are to be pulled (or cloned),
+     * or <code>false</code> otherwise
+     */
+    public boolean isToPullAll() {
+        return toPullAll;
     }
 
     private ArgumentListBuilder findHgExe(AbstractBuild<?,?> build, TaskListener listener, boolean allowDebug) throws IOException, InterruptedException {

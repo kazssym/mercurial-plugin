@@ -27,7 +27,7 @@ public class MatrixProjectTest extends MercurialTestCase {
         createPretendSlave("slave_two");
 
         matrixProject = createMatrixProject("matrix_test");
-        matrixProject.setScm(new MercurialSCM(null, repo.getPath(), null, null, null, null, false));
+        matrixProject.setScm(new MercurialSCM(null, repo.getPath(), null, null, null, null, false, false));
         matrixProject.setAxes(new AxisList(new LabelAxis("label", Arrays.asList("slave_one", "slave_two"))));
 
         hg(repo, "init");

@@ -28,6 +28,9 @@
     <f:entry field="subdir" title="${%Subdirectory}">
       <f:textbox/>
     </f:entry>
+    <f:entry field="toPullAll" title="${%Pull all revisions}">
+      <f:checkbox/>
+    </f:entry>
   </f:advanced>
 
   <t:listScmBrowsers name="mercurial.browser" />

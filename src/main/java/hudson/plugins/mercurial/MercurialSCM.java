@@ -758,6 +758,7 @@ public class MercurialSCM extends SCM implements Serializable {
             result ^= getBrowser().hashCode();
         }
         result ^= Boolean.valueOf(isClean()).hashCode();
+        result ^= 2 * Boolean.valueOf(isToPullAll()).hashCode();
         return result;
     }
 
@@ -781,7 +782,8 @@ public class MercurialSCM extends SCM implements Serializable {
                     && valuesAreEqual(getModules(), another.getModules())
                     && valuesAreEqual(getSubdir(), another.getSubdir())
                     && valuesAreEqual(getBrowser(), another.getBrowser())
-                    && isClean() == another.isClean()) {
+                    && isClean() == another.isClean()
+                    && isToPullAll() == another.isToPullAll()) {
                 return true;
             }
         }

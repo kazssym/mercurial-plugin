@@ -92,12 +92,12 @@ public class MercurialSCM extends SCM implements Serializable {
 
     /**
      * Tests if either two objects are equal or both are <code>null</code>s.
-     *
      * @param value1 the first object to compare
      * @param value2 the second object to compare
-     * @return true if either the two objects are equal or both parameters are
-     * <code>null</code>s; false otherwise
+     * @return <code>true</code> if either the two objects are equal or both
+     * arguments are <code>null</code>s; <code>false</code> otherwise
      * @author Kaz Nishimura
+     * @since 1.45-h-2
      */
     protected static boolean valuesAreEqual(Object value1, Object value2) {
         if (value1 == null) {
@@ -211,6 +211,7 @@ public class MercurialSCM extends SCM implements Serializable {
      * pulled (or cloned) or not.
      * @return <code>true</code> if all revisions are to be pulled (or cloned),
      * or <code>false</code> otherwise
+     * @since 1.45-h-3
      */
     public boolean isToPullAll() {
         return toPullAll;
@@ -731,10 +732,10 @@ public class MercurialSCM extends SCM implements Serializable {
     }
 
     /**
-     * Returns the hash code value of this object.
-     *
-     * @return hash code value
+     * Returns the hash code of this object.
+     * @return hash code
      * @author Kaz Nishimura
+     * @since 1.45-h-2
      */
     @Override
     public int hashCode() {
@@ -764,10 +765,11 @@ public class MercurialSCM extends SCM implements Serializable {
 
     /**
      * Tests if this object equals to another one.
-     *
      * @param object another object that will be tested for equality
-     * @return true if this object equals to the parameter; false otherwise
+     * @return <code>true</code> if this object equals to the argument;
+     * <code>false</code> otherwise
      * @author Kaz Nishimura
+     * @since 1.45-h-2
      */
     @Override
     public boolean equals(Object object) {

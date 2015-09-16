@@ -86,10 +86,10 @@ public class HgBrowser extends RepositoryBrowser<MercurialChangeSet> {
     }
 
     /**
-     * Returns the hash code value of this object.
-     *
-     * @return hash code value
+     * Returns the hash code of this object.
+     * @return hash code
      * @author Kaz Nishimura
+     * @since 1.45-h-2
      */
     @Override
     public int hashCode() {
@@ -102,10 +102,11 @@ public class HgBrowser extends RepositoryBrowser<MercurialChangeSet> {
 
     /**
      * Tests if this object equals to another one.
-     *
      * @param object another object that will be tested for equality
-     * @return true if this object equals to the parameter; false otherwise
+     * @return <code>true</code> if this object equals to the argument;
+     * <code>false</code> otherwise
      * @author Kaz Nishimura
+     * @since 1.45-h-2
      */
     @Override
     public boolean equals(Object object) {
